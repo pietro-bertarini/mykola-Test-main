@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 import styles from './Login.module.css';
+import { Web3Status } from '../components/Web3Components';
 
 const Login = ({ onLogin }) => {
   const [formData, setFormData] = useState({ username: '', password: '' });
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  
+  // We don't need to get wallet context here anymore since Web3Status handles it
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -14,6 +18,7 @@ const Login = ({ onLogin }) => {
       const response = await axios.post('http://localhost:5001/api/users/login', formData);
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('userID', response.data.userID);
+      
       onLogin();
       navigate('/play');
     } catch (error) {
@@ -55,10 +60,25 @@ const Login = ({ onLogin }) => {
             Register
           </button>
         </div>
+        
         {error && <p className={styles.error}>{error}</p>}
+        
+        {/* MetaMask Section - Using the reusable Web3Status component */}
+        <div className={styles.metamaskSection}>
+          <div className={styles.divider}>
+            <span>OR</span>
+          </div>
+          
+          <Web3Status className={styles.web3Status} />
+        </div>
       </form>
     </div>
   );
+};
+
+// Add prop validation
+Login.propTypes = {
+  onLogin: PropTypes.func.isRequired
 };
 
 export default Login;

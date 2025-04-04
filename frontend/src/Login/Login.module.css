@@ -5,10 +5,13 @@
     border: 1px solid #ccc;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
 }
 
 h2 {
     text-align: center;
+    margin-bottom: 20px;
+    color: #333;
 }
 
 .input {
@@ -17,6 +20,7 @@ h2 {
     margin: 10px 0;
     border-radius: 4px;
     border: 1px solid #ccc;
+    font-size: 14px;
 }
 
 .button {
@@ -25,17 +29,145 @@ h2 {
     border: none;
     color: #fff;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
 }
 
 .loginButton {
     background-color: #007bff;
 }
 
+.loginButton:hover {
+    background-color: #0069d9;
+}
+
 .registerButton {
     background-color: #6c757d;
 }
 
+.registerButton:hover {
+    background-color: #5a6268;
+}
+
 .error {
-    color: red;
+    color: #dc3545;
     text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+/* MetaMask integration styles */
+.metamaskSection {
+    margin-top: 25px;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #ccc;
+}
+
+.divider span {
+    padding: 0 10px;
+    color: #6c757d;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.metamaskLogo {
+    margin-right: 8px;
+}
+
+.metamaskButton {
+    width: 100%;
+    padding: 12px;
+    background-color: #f6851b; /* MetaMask orange */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+.metamaskButton:hover {
+    background-color: #e2761b; /* Darker orange on hover */
+}
+
+.metamaskButton:disabled {
+    background-color: #f6851b90;
+    cursor: not-allowed;
+}
+
+.metamaskMessage {
+    color: #6c757d;
+    text-align: center;
+    margin: 15px 0;
+    font-size: 14px;
+}
+
+.metamaskLink {
+    color: #f6851b;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.metamaskLink:hover {
+    text-decoration: underline;
+}
+
+.walletConnected {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 12px;
+    margin-top: 10px;
+}
+
+.walletStatus {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #28a745; /* Green color for connected status */
+    margin-bottom: 8px;
+}
+
+.walletStatusDot {
+    width: 8px;
+    height: 8px;
+    background-color: #28a745;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.walletAddress {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: monospace;
+    background-color: #e9ecef;
+    padding: 8px;
+    border-radius: 4px;
+    margin: 0;
+    font-size: 14px;
+}
+
+.copyButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 8px;
+    padding: 0;
 }

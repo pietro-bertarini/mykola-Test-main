@@ -1,0 +1,170 @@
+.walletContainer {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 12px;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.walletStatus {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: #28a745; /* Green color for connected status */
+  margin-bottom: 8px;
+}
+
+.walletStatusDot {
+  width: 8px;
+  height: 8px;
+  background-color: #28a745;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.walletAddress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: monospace;
+  background-color: #e9ecef;
+  padding: 8px;
+  border-radius: 4px;
+  margin: 0;
+  font-size: 14px;
+}
+
+.copyButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 8px;
+  padding: 0;
+  transition: opacity 0.2s ease;
+}
+
+.copyButton:hover {
+  opacity: 0.7;
+}
+
+.metamaskLogo {
+  margin-right: 8px;
+}
+
+.connectButton {
+  width: 100%;
+  padding: 12px;
+  background-color: #f6851b; /* MetaMask orange */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+}
+
+.connectButton:hover {
+  background-color: #e2761b; /* Darker orange on hover */
+}
+
+.connectButton:disabled {
+  background-color: #f6851b90;
+  cursor: not-allowed;
+}
+
+.metamaskMessage {
+  color: #6c757d;
+  text-align: center;
+  margin: 15px 0;
+  font-size: 14px;
+}
+
+.metamaskLink {
+  color: #f6851b;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.metamaskLink:hover {
+  text-decoration: underline;
+}
+
+.web3StatusContainer {
+  width: 100%;
+}
+
+/* Dark mode styles */
+.darkMode .walletContainer {
+  background-color: #343a40;
+  border-color: #495057;
+}
+
+.darkMode .walletAddress {
+  background-color: #495057;
+  color: #f8f9fa;
+}
+
+.darkMode .metamaskMessage {
+  color: #adb5bd;
+}
+
+/* Responsive styles */
+@media (max-width: 576px) {
+  .walletAddress {
+    font-size: 12px;
+  }
+}
+
+/* Animation for connection dot */
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+}
+
+.walletStatusDot {
+  animation: pulse 2s infinite;
+}
+
+/* Tooltip for copy button */
+.copyButtonContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip {
+  visibility: hidden;
+  width: 80px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -40px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-size: 12px;
+}
+
+.copyButtonContainer:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+} 
