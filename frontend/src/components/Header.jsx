@@ -6,12 +6,19 @@ import { useWallet } from '../main';
  */
 const Header = () => {
   const navigate = useNavigate();
-  const { walletAddress } = useWallet();
+  const { walletAddress, disconnectWallet } = useWallet();
   const isLoggedIn = !!localStorage.getItem('token');
 
   const handleLogout = () => {
+    // Remove auth data
     localStorage.removeItem('token');
     localStorage.removeItem('userID');
+    
+    // Disconnect wallet if connected
+    if (walletAddress) {
+      disconnectWallet();
+    }
+    
     navigate('/login');
   };
 
@@ -26,12 +33,16 @@ const Header = () => {
     <header className="game-header">
       <div className="header-content">
         <div className="header-logo" onClick={navigateToPlay}>
-          <span className="pixel-text">Memory Game</span>
+          <span className="pixel-text">Wonder Cards</span>
         </div>
         
         <div className="header-actions">
           {walletAddress && (
-            <div style={{ marginRight: '16px', fontFamily: 'monospace' }}>
+            <div style={{ 
+              marginRight: '16px', 
+              fontFamily: 'monospace',
+              color: 'var(--color-accent-yellow)'
+            }}>
               Playing with wallet: {walletAddress.substring(0, 6)}...{walletAddress.substring(walletAddress.length - 4)}
             </div>
           )}

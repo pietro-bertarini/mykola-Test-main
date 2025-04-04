@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import '../styles/variables.css';
 
 const Register = () => {
   const [formData, setFormData] = useState({ username: '', password: '' });
@@ -40,7 +41,7 @@ const Register = () => {
       display: "flex", 
       alignItems: "center", 
       justifyContent: "center", 
-      background: "radial-gradient(circle, #1e1e2e 0%, #121220 100%)",
+      background: "radial-gradient(circle, var(--color-background-main) 0%, #121220 100%)",
       backgroundImage: "url('https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?q=80&w=2070')",
       backgroundSize: "cover",
       backgroundPosition: "center",
@@ -50,19 +51,19 @@ const Register = () => {
         maxWidth: "500px", 
         width: "90%", 
         padding: "40px", 
-        backgroundColor: "rgba(30, 30, 46, 0.9)", 
+        backgroundColor: "var(--color-background-modal)", 
         backdropFilter: "blur(10px)",
-        border: "2px solid #ffcc00", 
+        border: "2px solid var(--color-accent-yellow)", 
         borderRadius: "15px",
-        boxShadow: "0 0 30px rgba(255, 204, 0, 0.3), 0 0 100px rgba(0, 0, 0, 0.5)"
+        boxShadow: `0 0 30px rgba(255, 204, 0, 0.3), 0 0 100px var(--color-shadow-dark)`
       }}>
         <h1 style={{ 
           textAlign: "center", 
           marginBottom: "30px", 
           fontFamily: "Orbitron, sans-serif", 
           fontSize: "42px",
-          color: "#ffcc00", 
-          textShadow: "0 0 10px #ffcc00, 0 0 20px rgba(255, 204, 0, 0.5)",
+          color: "var(--color-accent-yellow)", 
+          textShadow: "0 0 10px var(--color-accent-yellow), 0 0 20px var(--color-accent-yellow-light)",
           animation: "pulseTitle 3s infinite"
         }}>
           Wonder Cards
@@ -79,10 +80,10 @@ const Register = () => {
                 width: "100%", 
                 padding: "15px 20px", 
                 boxSizing: "border-box",
-                backgroundColor: "rgba(0, 0, 0, 0.3)", 
+                backgroundColor: "var(--color-background-transparent)", 
                 border: "1px solid rgba(255, 204, 0, 0.5)", 
                 borderRadius: "5px", 
-                color: "white",
+                color: "var(--color-text-primary)",
                 fontSize: "16px",
                 transition: "all 0.3s ease",
                 outline: "none",
@@ -102,10 +103,10 @@ const Register = () => {
                 width: "100%", 
                 padding: "15px 20px", 
                 boxSizing: "border-box",
-                backgroundColor: "rgba(0, 0, 0, 0.3)", 
+                backgroundColor: "var(--color-background-transparent)", 
                 border: "1px solid rgba(255, 204, 0, 0.5)", 
                 borderRadius: "5px", 
-                color: "white",
+                color: "var(--color-text-primary)",
                 fontSize: "16px",
                 transition: "all 0.3s ease",
                 outline: "none",
@@ -121,7 +122,7 @@ const Register = () => {
               style={{ 
                 flex: "1",
                 padding: "12px",
-                background: "linear-gradient(90deg, #ffcc00, #ffaa00)",
+                background: `linear-gradient(90deg, var(--color-accent-yellow), var(--color-accent-yellow-light))`,
                 color: "#121220",
                 border: "none",
                 borderRadius: "5px",
@@ -130,7 +131,7 @@ const Register = () => {
                 fontSize: "16px",
                 fontFamily: "Orbitron, sans-serif",
                 transition: "all 0.3s ease",
-                boxShadow: "0 0 10px rgba(255, 204, 0, 0.5)"
+                boxShadow: `0 0 10px var(--color-shadow-light)`
               }}
             >
               REGISTER
@@ -143,8 +144,8 @@ const Register = () => {
                 flex: "1",
                 padding: "12px",
                 backgroundColor: "transparent",
-                color: "#ffcc00",
-                border: "2px solid #ffcc00",
+                color: "var(--color-accent-yellow)",
+                border: `2px solid var(--color-accent-yellow)`,
                 borderRadius: "5px",
                 cursor: "pointer",
                 fontWeight: "bold",
@@ -159,7 +160,7 @@ const Register = () => {
           
           {message && (
             <div style={{ 
-              color: "#4cd964", 
+              color: "var(--color-accent-green-main)", 
               padding: "15px", 
               backgroundColor: "rgba(76, 217, 100, 0.1)", 
               marginTop: "20px", 
@@ -173,7 +174,7 @@ const Register = () => {
           )}
           
           {error && <div style={{ 
-            color: "#e53935", 
+            color: "var(--color-accent-red-main)", 
             marginBottom: "15px", 
             padding: "10px", 
             backgroundColor: "rgba(229, 57, 53, 0.1)", 
@@ -185,15 +186,15 @@ const Register = () => {
         
         <div style={{ textAlign: "center", marginTop: "30px" }}>
           <p style={{ 
-            color: "#ffcc00", 
+            color: "var(--color-accent-yellow)", 
             fontFamily: "Orbitron, sans-serif", 
             marginBottom: "8px",
             fontSize: "18px",
-            textShadow: "0 0 8px rgba(255, 204, 0, 0.5)" 
+            textShadow: `0 0 8px var(--color-shadow-light)` 
           }}>
             Join the Adventure
           </p>
-          <p style={{ color: "#e0e0e0", fontSize: "14px", fontFamily: "monospace" }}>Create an account to save your progress!</p>
+          <p style={{ color: "var(--color-text-secondary)", fontSize: "14px", fontFamily: "monospace" }}>Create an account to save your progress!</p>
         </div>
       </div>
     </div>

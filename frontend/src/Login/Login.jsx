@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { useWallet } from '../main';
+import '../styles/variables.css';
 
 const MetaMaskLogo = () => (
   <svg width="24" height="24" viewBox="0 0 33 31" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -42,8 +43,16 @@ const Login = ({ onLogin }) => {
   const [formData, setFormData] = useState({ username: '', password: '' });
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  const { walletAddress, connectMetaMask, isMetaMaskInstalled, formatWalletAddress } = useWallet();
+  const { walletAddress, connectMetaMask, disconnectWallet, isMetaMaskInstalled, formatWalletAddress } = useWallet();
   const [copied, setCopied] = useState(false);
+  const [initialLoad, setInitialLoad] = useState(true);
+
+  useEffect(() => {
+    if (initialLoad) {
+      disconnectWallet();
+      setInitialLoad(false);
+    }
+  }, [disconnectWallet, initialLoad]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -84,6 +93,7 @@ const Login = ({ onLogin }) => {
   };
 
   const handleConnect = async () => {
+    setInitialLoad(false);
     await connectMetaMask();
   };
 
@@ -94,7 +104,7 @@ const Login = ({ onLogin }) => {
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      background: "radial-gradient(circle, #1e1e2e 0%, #121220 100%)",
+      background: "radial-gradient(circle, var(--color-background-main) 0%, #121220 100%)",
       backgroundImage: "url('https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?q=80&w=2070')",
       backgroundSize: "cover",
       backgroundPosition: "center",
@@ -104,19 +114,19 @@ const Login = ({ onLogin }) => {
         maxWidth: "500px",
         width: "90%",
         padding: "40px",
-        backgroundColor: "rgba(30, 30, 46, 0.9)",
+        backgroundColor: "var(--color-background-modal)",
         backdropFilter: "blur(10px)",
-        border: "2px solid #ffcc00",
+        border: "2px solid var(--color-accent-yellow)",
         borderRadius: "15px",
-        boxShadow: "0 0 30px rgba(255, 204, 0, 0.3), 0 0 100px rgba(0, 0, 0, 0.5)"
+        boxShadow: `0 0 30px rgba(255, 204, 0, 0.3), 0 0 100px var(--color-shadow-dark)`
       }}>
         <h1 style={{
           textAlign: "center",
           marginBottom: "30px",
           fontFamily: "Orbitron, sans-serif",
           fontSize: "42px",
-          color: "#ffcc00",
-          textShadow: "0 0 10px #ffcc00, 0 0 20px rgba(255, 204, 0, 0.5)",
+          color: "var(--color-accent-yellow)",
+          textShadow: "0 0 10px var(--color-accent-yellow), 0 0 20px var(--color-accent-yellow-light)",
           animation: "pulseTitle 3s infinite"
         }}>
           Wonder Cards
@@ -133,10 +143,10 @@ const Login = ({ onLogin }) => {
                 width: "100%", 
                 padding: "15px 20px", 
                 boxSizing: "border-box",
-                backgroundColor: "rgba(0, 0, 0, 0.3)", 
+                backgroundColor: "var(--color-background-transparent)", 
                 border: "1px solid rgba(255, 204, 0, 0.5)", 
                 borderRadius: "5px", 
-                color: "white",
+                color: "var(--color-text-primary)",
                 fontSize: "16px",
                 transition: "all 0.3s ease",
                 outline: "none",
@@ -156,10 +166,10 @@ const Login = ({ onLogin }) => {
                 width: "100%", 
                 padding: "15px 20px", 
                 boxSizing: "border-box",
-                backgroundColor: "rgba(0, 0, 0, 0.3)", 
+                backgroundColor: "var(--color-background-transparent)", 
                 border: "1px solid rgba(255, 204, 0, 0.5)", 
                 borderRadius: "5px", 
-                color: "white",
+                color: "var(--color-text-primary)",
                 fontSize: "16px",
                 transition: "all 0.3s ease",
                 outline: "none",
@@ -175,7 +185,7 @@ const Login = ({ onLogin }) => {
               style={{
                 flex: "1",
                 padding: "12px",
-                background: "linear-gradient(90deg, #ffcc00, #ffaa00)",
+                background: `linear-gradient(90deg, var(--color-accent-yellow), var(--color-accent-yellow-light))`,
                 color: "#121220",
                 border: "none",
                 borderRadius: "5px",
@@ -184,7 +194,7 @@ const Login = ({ onLogin }) => {
                 fontSize: "16px",
                 fontFamily: "Orbitron, sans-serif",
                 transition: "all 0.3s ease",
-                boxShadow: "0 0 10px rgba(255, 204, 0, 0.5)"
+                boxShadow: `0 0 10px var(--color-shadow-light)`
               }}
             >
               LOGIN
@@ -197,8 +207,8 @@ const Login = ({ onLogin }) => {
                 flex: "1",
                 padding: "12px",
                 backgroundColor: "transparent",
-                color: "#ffcc00",
-                border: "2px solid #ffcc00",
+                color: "var(--color-accent-yellow)",
+                border: `2px solid var(--color-accent-yellow)`,
                 borderRadius: "5px",
                 cursor: "pointer",
                 fontWeight: "bold",
@@ -212,7 +222,7 @@ const Login = ({ onLogin }) => {
           </div>
 
           {error && <div style={{
-            color: "#e53935",
+            color: "var(--color-accent-red-main)",
             marginBottom: "15px",
             padding: "10px",
             backgroundColor: "rgba(229, 57, 53, 0.1)",
@@ -221,20 +231,20 @@ const Login = ({ onLogin }) => {
           }}>{error}</div>}
 
           <div style={{ display: "flex", alignItems: "center", margin: "25px 0" }}>
-            <div style={{ flex: "1", height: "1px", background: "linear-gradient(to right, transparent, #ffcc00, transparent)" }}></div>
-            <span style={{ padding: "0 15px", color: "#ffcc00", fontFamily: "Orbitron, sans-serif" }}>OR</span>
-            <div style={{ flex: "1", height: "1px", background: "linear-gradient(to right, transparent, #ffcc00, transparent)" }}></div>
+            <div style={{ flex: "1", height: "1px", background: `linear-gradient(to right, transparent, var(--color-accent-yellow), transparent)` }}></div>
+            <span style={{ padding: "0 15px", color: "var(--color-accent-yellow)", fontFamily: "Orbitron, sans-serif" }}>OR</span>
+            <div style={{ flex: "1", height: "1px", background: `linear-gradient(to right, transparent, var(--color-accent-yellow), transparent)` }}></div>
           </div>
 
           {!isMetaMaskInstalled ? (
             <div style={{ textAlign: "center", marginTop: "20px" }}>
-              <p style={{ color: "white", fontFamily: "monospace" }}>
+              <p style={{ color: "var(--color-text-primary)", fontFamily: "monospace" }}>
                 MetaMask is not installed. Please install{' '}
                 <a
                   href="https://metamask.io/download/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{ color: "#ffcc00", textDecoration: "none", borderBottom: "1px dotted #ffcc00" }}
+                  style={{ color: "var(--color-accent-yellow)", textDecoration: "none", borderBottom: `1px dotted var(--color-accent-yellow)` }}
                 >
                   MetaMask
                 </a>
@@ -242,7 +252,7 @@ const Login = ({ onLogin }) => {
             </div>
           ) : walletAddress ? (
             <div style={{
-              border: "1px solid #ffcc00",
+              border: `1px solid var(--color-accent-yellow)`,
               borderRadius: "8px",
               padding: "15px",
               marginTop: "15px",
@@ -250,18 +260,19 @@ const Login = ({ onLogin }) => {
               backgroundColor: "rgba(255, 204, 0, 0.1)"
             }}>
               <div style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
-                <div style={{ width: "10px", height: "10px", backgroundColor: "#4cd964", borderRadius: "50%", marginRight: "8px" }}></div>
-                <span style={{ color: "#4cd964", fontSize: "14px", fontFamily: "monospace" }}>Wallet Connected</span>
+                <div style={{ width: "10px", height: "10px", backgroundColor: "var(--color-accent-green-main)", borderRadius: "50%", marginRight: "8px" }}></div>
+                <span style={{ color: "var(--color-accent-green-main)", fontSize: "14px", fontFamily: "monospace" }}>Wallet Connected</span>
               </div>
               <div style={{
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                backgroundColor: "rgba(0, 0, 0, 0.3)",
+                backgroundColor: "var(--color-background-transparent)",
                 padding: "12px",
                 borderRadius: "5px",
                 fontFamily: "monospace",
-                position: "relative"
+                position: "relative",
+                color: "var(--color-accent-yellow)"
               }}>
                 {formatWalletAddress(walletAddress)}
                 <button
@@ -271,7 +282,7 @@ const Login = ({ onLogin }) => {
                     border: "none",
                     cursor: "pointer",
                     marginLeft: "10px",
-                    color: "#ffcc00",
+                    color: "var(--color-accent-yellow)",
                     fontSize: "18px"
                   }}
                 >
@@ -300,7 +311,7 @@ const Login = ({ onLogin }) => {
                 justifyContent: "center",
                 padding: "14px",
                 backgroundColor: "#f6851b",
-                color: "white",
+                color: "var(--color-text-primary)",
                 border: "none",
                 borderRadius: "5px",
                 cursor: "pointer",
@@ -319,15 +330,15 @@ const Login = ({ onLogin }) => {
 
         <div style={{ textAlign: "center", marginTop: "30px" }}>
           <p style={{
-            color: "#ffcc00",
+            color: "var(--color-accent-yellow)",
             fontFamily: "Orbitron, sans-serif",
             marginBottom: "8px",
             fontSize: "18px",
-            textShadow: "0 0 8px rgba(255, 204, 0, 0.5)"
+            textShadow: `0 0 8px var(--color-shadow-light)`
           }}>
-             Memory Card
+            Card Memory Game
           </p>
-          <p style={{ color: "#e0e0e0", fontSize: "14px", fontFamily: "monospace" }}>Connect your wallet or login to play!</p>
+          <p style={{ color: "var(--color-text-secondary)", fontSize: "14px", fontFamily: "monospace" }}>Connect your wallet or login to play!</p>
         </div>
       </div>
     </div>
