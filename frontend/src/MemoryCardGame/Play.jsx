@@ -1,8 +1,7 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 import backgroundGif from "../assets/images/play.gif";
-import calmBackground from "../assets/images/calm-wallpaper.jpg";
 import backgroundMusic from "../assets/audio/background-music.mp3";
 import buttonHoverSound from "../assets/audio/button-hover.mp3";
 import buttonClickSound from "../assets/audio/button-click.mp3";
@@ -10,10 +9,11 @@ import { X } from "lucide-react";
 import "./Play.css";
 import axios from "axios";
 import COLORS from "../styles/colors";
+import { useWallet } from "../main";
 
 const modalStyles = {
   overlay: {
-    backgroundColor: COLORS.background.transparent,
+    backgroundColor: "rgba(0, 0, 0, 0.75)",
     zIndex: 999,
     display: "flex",
     alignItems: "center",
@@ -21,14 +21,14 @@ const modalStyles = {
     overflow: "hidden",
   },
   content: {
-    backgroundColor: COLORS.background.main,
-    border: `2px solid ${COLORS.border.light}`,
+    backgroundColor: "#2c2c54",
+    border: `2px solid #00d9ff`,
     borderRadius: "20px",
     padding: "40px",
     maxWidth: "600px",
     height: "300px",
     width: "90%",
-    color: COLORS.text.primary,
+    color: "white",
     textAlign: "center",
     position: "absolute",
     top: "50%",
@@ -94,11 +94,11 @@ const modalHistoryStyles = {
 
 const Play = () => {
   const navigate = useNavigate();
+  const { walletAddress, formatWalletAddress } = useWallet();
   const [SettingsmodalIsOpen, setModalSettingIsOpen] = useState(false);
   const [PlaymodalIsOpen, setModalPlayIsOpen] = useState(false);
   const [HistorymodalIsOpen, setModalHistoryIsOpen] = useState(false);
   const [difficulty, setDifficulty] = useState(null);
-  const [isCalmMode, setIsCalmMode] = useState(false);
   const [gameHistory, setGameHistory] = useState([]);
   const [historyPage, setHistoryPage] = useState(1);
   const [historyLimit] = useState(5); // Number of results per page
@@ -164,11 +164,6 @@ const Play = () => {
     const newVolume = parseInt(event.target.value, 10);
     setSfxVolume(newVolume);
     setMutedSfx(newVolume === 0);
-  };
-
-  const toggleCalmMode = () => {
-    setIsCalmMode((prev) => !prev);
-    playClickSound();
   };
 
   const playHoverSound = () => {
@@ -278,57 +273,83 @@ const Play = () => {
     }
     localStorage.setItem("gameStarted", "true");
 
-    if (isCalmMode) {
-      if (difficulty === "red") {
-        navigate("/calm-hard");
-      } else if (difficulty === "yellow") {
-        navigate("/calm-medium");
-      } else if (difficulty === "green") {
-        navigate("/calm-easy");
-      } else {
-        alert(`Selected difficulty: ${difficulty}`);
-      }
+    if (difficulty === "red") {
+      navigate("/memory-card-game");
+    } else if (difficulty === "yellow") {
+      navigate("/medium");
+    } else if (difficulty === "green") {
+      navigate("/easy");
     } else {
-      if (difficulty === "red") {
-        navigate("/memory-card-game");
-      } else if (difficulty === "yellow") {
-        navigate("/medium");
-      } else if (difficulty === "green") {
-        navigate("/easy");
-      } else {
-        alert(`Selected difficulty: ${difficulty}`);
-      }
+      alert(`Selected difficulty: ${difficulty}`);
     }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userID');
+    navigate('/login');
   };
 
   return (
     <div
       className="background-container"
       style={{
-        backgroundImage: `url(${isCalmMode ? calmBackground : backgroundGif})`,
+        backgroundImage: `url(${backgroundGif})`,
       }}
     >
-      <h1 className={`game-title ${isCalmMode ? "calm-title" : ""}`}>
+      {/* Simple Header */}
+      <div style={{
+        display: "flex", 
+        justifyContent: "space-between", 
+        alignItems: "center", 
+        padding: "10px 20px", 
+        color: "white",
+        fontFamily: "monospace"
+      }}>
+        <div>Memory Game</div>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          {walletAddress && (
+            <div style={{ marginRight: "20px" }}>
+              Playing with wallet: {formatWalletAddress(walletAddress)}
+            </div>
+          )}
+          <button 
+            onClick={handleLogout}
+            style={{ 
+              padding: "5px 15px", 
+              backgroundColor: "transparent", 
+              color: "white", 
+              border: "1px solid red", 
+              borderRadius: "3px", 
+              cursor: "pointer" 
+            }}
+          >
+            LOGOUT
+          </button>
+        </div>
+      </div>
+
+      <h1 className="game-title">
         WonderCards
       </h1>
 
       <div className="button-container">
         <button
-          className={`game-button ${isCalmMode ? "calm-button" : ""}`}
+          className="game-button"
           onClick={PlayopenModal}
           onMouseEnter={playHoverSound}
         >
           Play
         </button>
         <button
-          className={`game-button ${isCalmMode ? "calm-button" : ""}`}
+          className="game-button"
           onClick={HistoryopenModal}
           onMouseEnter={playHoverSound}
         >
           History
         </button>
         <button
-          className={`game-button ${isCalmMode ? "calm-button" : ""}`}
+          className="game-button"
           onClick={() => {
             playClickSound();
             alert("Instructions coming soon!");
@@ -338,7 +359,7 @@ const Play = () => {
           Instructions
         </button>
         <button
-          className={`game-button ${isCalmMode ? "calm-button" : ""}`}
+          className="game-button"
           onClick={SettingopenModal}
           onMouseEnter={playHoverSound}
         >
@@ -352,8 +373,8 @@ const Play = () => {
           ...modalStyles,
           content: {
             ...modalStyles.content,
-            backgroundColor: isCalmMode ? COLORS.calmMode.background : COLORS.background.main,
-            color: isCalmMode ? COLORS.text.primary : COLORS.text.primary,
+            backgroundColor: COLORS.background.main,
+            color: COLORS.text.primary,
           },
         }}
       >
@@ -372,7 +393,7 @@ const Play = () => {
           <X size={24} />
         </button>
 
-        <h2 className={`${isCalmMode ? "calm-mode-label" : ""} modal-h2`}>
+        <h2 className="modal-h2">
           Background Music
         </h2>
         <div className="volume-control">
@@ -387,7 +408,7 @@ const Play = () => {
           />
         </div>
 
-        <h2 className={`${isCalmMode ? "calm-mode-label" : ""} modal-h2`}>
+        <h2 className="modal-h2">
           Sound Effects
         </h2>
         <div className="volume-control">
@@ -401,20 +422,6 @@ const Play = () => {
             className="volume-slider"
           />
         </div>
-
-        {/* <div className="calm-mode">
-          <h2 className={`${isCalmMode ? "calm-mode-label" : ""} modal-h2`}>
-            Calm Mode
-          </h2>
-          <label className="switch">
-            <input
-              type="checkbox"
-              checked={isCalmMode}
-              onChange={toggleCalmMode}
-            />
-            <span className="slider round"></span>
-          </label>
-        </div> */}
       </Modal>
 
       <Modal
@@ -424,8 +431,8 @@ const Play = () => {
           ...modalPlayStyles,
           content: {
             ...modalPlayStyles.content,
-            backgroundColor: isCalmMode ? COLORS.calmMode.background : COLORS.background.main,
-            color: isCalmMode ? COLORS.text.primary : COLORS.text.primary,
+            backgroundColor: COLORS.background.main,
+            color: COLORS.text.primary,
           },
         }}
       >
@@ -444,7 +451,7 @@ const Play = () => {
           <X size={24} />
         </button>
 
-        <h2 className={`${isCalmMode ? "calm-mode-label" : ""} modal-h2`}>
+        <h2 className="modal-h2">
           Select Difficulty
         </h2>
         <div className="difficulty-selection">
@@ -454,8 +461,8 @@ const Play = () => {
               playClickSound();
             }}
             className={`difficulty-button green ${
-              difficulty === "green" && !isCalmMode ? "selected" : ""
-            } ${isCalmMode && difficulty === "green" ? "calm-selected" : ""}`}
+              difficulty === "green" ? "selected" : ""
+            }`}
             onMouseEnter={playHoverSound}
           >
             Easy
@@ -466,8 +473,8 @@ const Play = () => {
               playClickSound();
             }}
             className={`difficulty-button yellow ${
-              difficulty === "yellow" && !isCalmMode ? "selected" : ""
-            } ${isCalmMode && difficulty === "yellow" ? "calm-selected" : ""}`}
+              difficulty === "yellow" ? "selected" : ""
+            }`}
             onMouseEnter={playHoverSound}
           >
             Normal
@@ -478,8 +485,8 @@ const Play = () => {
               playClickSound();
             }}
             className={`difficulty-button red ${
-              difficulty === "red" && !isCalmMode ? "selected" : ""
-            } ${isCalmMode && difficulty === "red" ? "calm-selected" : ""}`}
+              difficulty === "red" ? "selected" : ""
+            }`}
             onMouseEnter={playHoverSound}
           >
             Hard
@@ -504,8 +511,8 @@ const Play = () => {
           ...modalHistoryStyles,
           content: {
             ...modalHistoryStyles.content,
-            backgroundColor: isCalmMode ? COLORS.calmMode.background : COLORS.background.main,
-            color: isCalmMode ? COLORS.text.primary : COLORS.text.primary,
+            backgroundColor: COLORS.background.main,
+            color: COLORS.text.primary,
           },
         }}
       >
@@ -524,7 +531,7 @@ const Play = () => {
           <X size={24} />
         </button>
 
-        <h2 className={`${isCalmMode ? "calm-mode-label" : ""} modal-h2`}>
+        <h2 className="modal-h2">
           Game History
         </h2>
 

@@ -1,3 +1,7 @@
+/* Import space-inspired fonts */
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap");
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -11,6 +15,10 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* Color Variables */
+  --color-accent-yellow: #ffcc00;
+  --color-accent-yellow-light: #ffaa00;
 }
 
 a {
@@ -65,4 +73,28 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+/* Title pulse animation */
+@keyframes pulseTitle {
+  0%, 100% {
+    text-shadow: 
+        0 0 10px var(--color-accent-yellow),
+        0 0 20px var(--color-accent-yellow-light),
+        0 0 30px rgba(255, 255, 255, 0.6);
+    transform: scale(1);
+  }
+  50% {
+    text-shadow: 
+        0 0 20px var(--color-accent-yellow-light),
+        0 0 40px var(--color-accent-yellow),
+        0 0 60px rgba(255, 255, 255, 0.9);
+    transform: scale(1.05); /* Slight size increase for pulse effect */
+  }
+}
+
+/* Fade in animation for tooltips */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }

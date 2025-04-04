@@ -141,41 +141,18 @@ const App = () => {
     setIsAuthenticated(true);
   };
 
-  // const handleLogout = () => {
-  //   setIsAuthenticated(false);
-  //   localStorage.removeItem('token');
-  // };
-
   return (
     <Router>
       <Routes>
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/congratulations"
-      element={isAuthenticated ? <Congratulations /> : <Navigate to="/login" />}
-      />
-     
-      <Route path="/congt-easy"
-      element={isAuthenticated ? <CongtEasy /> : <Navigate to="/login" />}
-      />
-      <Route path="/congt-normal"
-      element={isAuthenticated ? <CongtNormal /> : <Navigate to="/login" />}
-      />
-        <Route path="/easy" 
-       element={isAuthenticated ? <Easy /> : <Navigate to="/login" />}
-        />
-        <Route path="/medium" 
-         element={isAuthenticated ? <Medium /> : <Navigate to="/login" />}
-         />
-        <Route
-          path="/play"
-          element={isAuthenticated ? <Play /> : <Navigate to="/login" />}
-        />
-  
-        <Route
-          path="/memory-card-game"
-          element={isAuthenticated ? <MemoryCardGame /> : <Navigate to="/login" />}
-        />
+        <Route path="/congratulations" element={isAuthenticated ? <Congratulations /> : <Navigate to="/login" />} />
+        <Route path="/congt-easy" element={isAuthenticated ? <CongtEasy /> : <Navigate to="/login" />} />
+        <Route path="/congt-normal" element={isAuthenticated ? <CongtNormal /> : <Navigate to="/login" />} />
+        <Route path="/easy" element={isAuthenticated ? <Easy /> : <Navigate to="/login" />} />
+        <Route path="/medium" element={isAuthenticated ? <Medium /> : <Navigate to="/login" />} />
+        <Route path="/play" element={isAuthenticated ? <Play /> : <Navigate to="/login" />} />
+        <Route path="/memory-card-game" element={isAuthenticated ? <MemoryCardGame /> : <Navigate to="/login" />} />
         <Route path="/" element={<Navigate to="/login" />} />
       </Routes>
     </Router>

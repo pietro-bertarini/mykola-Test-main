@@ -1,79 +1,13 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useWallet } from '../main';
-import styles from './Web3Components.module.css';
-
-/**
- * Component to display the connected wallet address
- * @param {Object} props - Component props
- * @param {boolean} props.showCopyButton - Whether to show the copy button
- * @param {boolean} props.showStatus - Whether to show the connection status
- * @param {string} props.className - Additional CSS class to apply to the component
- * @returns {JSX.Element} Wallet Display component
- */
-export const WalletDisplay = ({ showCopyButton = true, showStatus = true, className = '' }) => {
-  const { walletAddress, formatWalletAddress } = useWallet();
-  const [copied, setCopied] = useState(false);
-
-  const copyToClipboard = (e) => {
-    // Prevent any default actions and stop event propagation
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-
-    navigator.clipboard.writeText(walletAddress)
-      .then(() => {
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-      })
-      .catch(err => {
-        console.error('Could not copy wallet address: ', err);
-      });
-  };
-
-  if (!walletAddress) return null;
-
-  return (
-    <div className={`${styles.walletContainer} ${className}`}>
-      {showStatus && (
-        <div className={styles.walletStatus}>
-          <div className={styles.walletStatusDot}></div>
-          <span>Wallet Connected</span>
-        </div>
-      )}
-      <p className={styles.walletAddress}>
-        {formatWalletAddress(walletAddress)}
-        {showCopyButton && (
-          <div className={styles.copyButtonContainer}>
-            <button 
-              className={styles.copyButton} 
-              onClick={copyToClipboard} 
-              aria-label="Copy wallet address"
-              type="button" // Explicitly set button type to prevent form submission
-            >
-              📋
-            </button>
-            {copied && <span className={styles.tooltip}>Copied!</span>}
-          </div>
-        )}
-      </p>
-    </div>
-  );
-};
-
-WalletDisplay.propTypes = {
-  showCopyButton: PropTypes.bool,
-  showStatus: PropTypes.bool,
-  className: PropTypes.string
-};
 
 /**
  * MetaMask Fox logo component
  * @returns {JSX.Element} MetaMask Logo SVG
  */
 export const MetaMaskLogo = () => (
-  <svg width="24" height="24" viewBox="0 0 33 31" fill="none" xmlns="http://www.w3.org/2000/svg" className={styles.metamaskLogo}>
+  <svg width="24" height="24" viewBox="0 0 33 31" fill="none" xmlns="http://www.w3.org/2000/svg" className="metamask-logo">
     <path d="M31.1495 1L18.5163 10.1508L20.7551 4.82982L31.1495 1Z" fill="#E2761B" stroke="#E2761B" strokeLinecap="round" strokeLinejoin="round"/>
     <path d="M1.83966 1L14.3919 10.2341L12.2453 4.82982L1.83966 1Z" fill="#E4761B" stroke="#E4761B" strokeLinecap="round" strokeLinejoin="round"/>
     <path d="M26.7308 22.0064L23.4978 27.0024L30.5656 28.9366L32.5831 22.1313L26.7308 22.0064Z" fill="#E4761B" stroke="#E4761B" strokeLinecap="round" strokeLinejoin="round"/>
@@ -107,87 +41,88 @@ export const MetaMaskLogo = () => (
 );
 
 /**
- * Connect Wallet Button component
+ * Web3Status component for login page
  * @param {Object} props - Component props
- * @param {Function} props.onSuccess - Callback function to run after successful connection
- * @param {string} props.className - Additional CSS class to apply to the component
- * @returns {JSX.Element} Connect Wallet Button component
- */
-export const ConnectWalletButton = ({ onSuccess, className = '' }) => {
-  const { isConnecting, connectMetaMask, isMetaMaskInstalled } = useWallet();
-
-  const handleConnect = async () => {
-    await connectMetaMask();
-    if (onSuccess && typeof onSuccess === 'function') {
-      onSuccess();
-    }
-  };
-
-  if (!isMetaMaskInstalled) {
-    return (
-      <div className={`${styles.metamaskMessage} ${className}`}>
-        <p>
-          MetaMask is not installed. Please install{' '}
-          <a 
-            href="https://metamask.io/download/" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className={styles.metamaskLink}
-          >
-            MetaMask
-          </a>
-        </p>
-      </div>
-    );
-  }
-
-  return (
-    <button 
-      className={`${styles.connectButton} ${className}`} 
-      onClick={handleConnect} 
-      disabled={isConnecting}
-      type="button" // Explicitly set button type to prevent form submission
-    >
-      <MetaMaskLogo />
-      {isConnecting ? 'Connecting...' : 'Connect with MetaMask'}
-    </button>
-  );
-};
-
-ConnectWalletButton.propTypes = {
-  onSuccess: PropTypes.func,
-  className: PropTypes.string
-};
-
-/**
- * Web3Status component to show either connect button or wallet address based on connection state
- * @param {Object} props - Component props
- * @param {Function} props.onConnect - Callback function to run after successful connection
  * @param {string} props.className - Additional CSS class to apply to the component
  * @returns {JSX.Element} Web3Status component
  */
-export const Web3Status = ({ onConnect, className = '' }) => {
-  const { walletAddress } = useWallet();
+const Web3Status = ({ className = '' }) => {
+  const { walletAddress, connectMetaMask, isMetaMaskInstalled, formatWalletAddress } = useWallet();
+  const [copied, setCopied] = useState(false);
+  
+  const copyToClipboard = (e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    navigator.clipboard.writeText(walletAddress)
+      .then(() => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      })
+      .catch(err => {
+        console.error('Could not copy wallet address: ', err);
+      });
+  };
+
+  const handleConnect = async () => {
+    await connectMetaMask();
+  };
 
   return (
-    <div className={`${styles.web3StatusContainer} ${className}`}>
-      {walletAddress ? (
-        <WalletDisplay />
+    <div className={className}>
+      {!isMetaMaskInstalled ? (
+        <div style={{ textAlign: 'center', padding: '15px' }}>
+          <p style={{ fontSize: '14px', marginBottom: '10px' }}>
+            MetaMask is not installed. Please install{' '}
+            <a 
+              href="https://metamask.io/download/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              style={{ color: 'var(--accent-blue)', fontWeight: 'bold', textDecoration: 'none' }}
+            >
+              MetaMask
+            </a>
+          </p>
+        </div>
+      ) : walletAddress ? (
+        <div className="wallet-container">
+          <div className="wallet-status">
+            <div className="wallet-status-dot"></div>
+            <span>Wallet Connected</span>
+          </div>
+          <div className="wallet-address">
+            {formatWalletAddress(walletAddress)}
+            <div style={{ position: 'relative', marginLeft: '8px' }}>
+              <button 
+                className="copy-button" 
+                onClick={copyToClipboard} 
+                aria-label="Copy wallet address"
+                type="button"
+              >
+                📋
+              </button>
+              {copied && <span style={{ position: 'absolute', top: '-25px', left: '50%', transform: 'translateX(-50%)', backgroundColor: 'rgba(0,0,0,0.7)', color: 'white', padding: '4px 8px', borderRadius: '4px', fontSize: '12px' }}>Copied!</span>}
+            </div>
+          </div>
+        </div>
       ) : (
-        <ConnectWalletButton onSuccess={onConnect} />
+        <button 
+          className="metamask-button" 
+          onClick={handleConnect}
+          type="button"
+        >
+          <MetaMaskLogo />
+          Connect with MetaMask
+        </button>
       )}
     </div>
   );
 };
 
 Web3Status.propTypes = {
-  onConnect: PropTypes.func,
   className: PropTypes.string
 };
 
-export default {
-  WalletDisplay,
-  MetaMaskLogo,
-  ConnectWalletButton,
-  Web3Status
-}; 
+export default Web3Status; 
