@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import { useWallet } from '../main';
+import { useWallet } from '../contexts/WalletContext';
 import '../styles/variables.css';
-import { MetaMaskLogo } from '../components/Web3Components';
+import '../styles/forms.css';
+import { MetaMaskLogo, ClipboardIcon } from '../components/icons/Icons';
 
 const Login = ({ onLogin }) => {
   const [formData, setFormData] = useState({ username: '', password: '' });
@@ -106,19 +107,7 @@ const Login = ({ onLogin }) => {
               placeholder="Username"
               value={formData.username}
               onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-              style={{ 
-                width: "100%", 
-                padding: "15px 20px", 
-                boxSizing: "border-box",
-                backgroundColor: "var(--color-background-transparent)", 
-                border: "1px solid rgba(255, 204, 0, 0.5)", 
-                borderRadius: "5px", 
-                color: "var(--color-text-primary)",
-                fontSize: "16px",
-                transition: "all 0.3s ease",
-                outline: "none",
-                fontFamily: "monospace"
-              }}
+              className="form-input"
               required
             />
           </div>
@@ -129,19 +118,7 @@ const Login = ({ onLogin }) => {
               placeholder="Password"
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-              style={{ 
-                width: "100%", 
-                padding: "15px 20px", 
-                boxSizing: "border-box",
-                backgroundColor: "var(--color-background-transparent)", 
-                border: "1px solid rgba(255, 204, 0, 0.5)", 
-                borderRadius: "5px", 
-                color: "var(--color-text-primary)",
-                fontSize: "16px",
-                transition: "all 0.3s ease",
-                outline: "none",
-                fontFamily: "monospace"
-              }}
+              className="form-input"
               required
             />
           </div>
@@ -149,20 +126,7 @@ const Login = ({ onLogin }) => {
           <div style={{ display: "flex", gap: "15px", marginBottom: "20px" }}>
             <button
               type="submit"
-              style={{
-                flex: "1",
-                padding: "12px",
-                background: `linear-gradient(90deg, var(--color-accent-yellow), var(--color-accent-yellow-light))`,
-                color: "#121220",
-                border: "none",
-                borderRadius: "5px",
-                cursor: "pointer",
-                fontWeight: "bold",
-                fontSize: "16px",
-                fontFamily: "Orbitron, sans-serif",
-                transition: "all 0.3s ease",
-                boxShadow: `0 0 10px var(--color-shadow-light)`
-              }}
+              className="primary-button"
             >
               LOGIN
             </button>
@@ -170,37 +134,18 @@ const Login = ({ onLogin }) => {
             <button
               type="button"
               onClick={handleRegisterRedirect}
-              style={{
-                flex: "1",
-                padding: "12px",
-                backgroundColor: "transparent",
-                color: "var(--color-accent-yellow)",
-                border: `2px solid var(--color-accent-yellow)`,
-                borderRadius: "5px",
-                cursor: "pointer",
-                fontWeight: "bold",
-                fontSize: "16px",
-                fontFamily: "Orbitron, sans-serif",
-                transition: "all 0.3s ease"
-              }}
+              className="secondary-button"
             >
               REGISTER
             </button>
           </div>
 
-          {error && <div style={{
-            color: "var(--color-accent-red-main)",
-            marginBottom: "15px",
-            padding: "10px",
-            backgroundColor: "rgba(229, 57, 53, 0.1)",
-            borderRadius: "5px",
-            fontFamily: "monospace"
-          }}>{error}</div>}
+          {error && <div className="error-message">{error}</div>}
 
-          <div style={{ display: "flex", alignItems: "center", margin: "25px 0" }}>
-            <div style={{ flex: "1", height: "1px", background: `linear-gradient(to right, transparent, var(--color-accent-yellow), transparent)` }}></div>
-            <span style={{ padding: "0 15px", color: "var(--color-accent-yellow)", fontFamily: "Orbitron, sans-serif" }}>OR</span>
-            <div style={{ flex: "1", height: "1px", background: `linear-gradient(to right, transparent, var(--color-accent-yellow), transparent)` }}></div>
+          <div className="form-divider">
+            <div className="divider-line"></div>
+            <span className="divider-text">OR</span>
+            <div className="divider-line"></div>
           </div>
 
           {!isMetaMaskInstalled ? (
@@ -218,76 +163,28 @@ const Login = ({ onLogin }) => {
               </p>
             </div>
           ) : walletAddress ? (
-            <div style={{
-              border: `1px solid var(--color-accent-yellow)`,
-              borderRadius: "8px",
-              padding: "15px",
-              marginTop: "15px",
-              backdropFilter: "blur(5px)",
-              backgroundColor: "rgba(255, 204, 0, 0.1)"
-            }}>
-              <div style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
-                <div style={{ width: "10px", height: "10px", backgroundColor: "var(--color-accent-green-main)", borderRadius: "50%", marginRight: "8px" }}></div>
+            <div className="wallet-container">
+              <div className="wallet-status">
+                <div className="wallet-status-dot"></div>
                 <span style={{ color: "var(--color-accent-green-main)", fontSize: "14px", fontFamily: "monospace" }}>Wallet Connected</span>
               </div>
-              <div style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: "var(--color-background-transparent)",
-                padding: "12px",
-                borderRadius: "5px",
-                fontFamily: "monospace",
-                position: "relative",
-                color: "var(--color-accent-yellow)"
-              }}>
+              <div className="wallet-address">
                 {formatWalletAddress(walletAddress)}
                 <button
                   onClick={copyToClipboard}
-                  style={{
-                    background: "none",
-                    border: "none",
-                    cursor: "pointer",
-                    marginLeft: "10px",
-                    color: "var(--color-accent-yellow)",
-                    fontSize: "18px"
-                  }}
+                  className="copy-button"
+                  aria-label="Copy wallet address"
                 >
-                  📋
+                  <ClipboardIcon />
                 </button>
-                {copied && <span style={{
-                  position: "absolute",
-                  top: "-25px",
-                  right: "10px",
-                  backgroundColor: "rgba(0,0,0,0.8)",
-                  padding: "4px 8px",
-                  borderRadius: "3px",
-                  fontSize: "12px",
-                  animation: "fadeIn 0.3s"
-                }}>Copied!</span>}
+                {copied && <span className="copied-tooltip">Copied!</span>}
               </div>
             </div>
           ) : (
             <button
               type="button"
               onClick={handleConnect}
-              style={{
-                width: "100%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                padding: "14px",
-                backgroundColor: "#f6851b",
-                color: "var(--color-text-primary)",
-                border: "none",
-                borderRadius: "5px",
-                cursor: "pointer",
-                marginTop: "15px",
-                fontFamily: "Orbitron, sans-serif",
-                fontSize: "15px",
-                transition: "all 0.3s ease",
-                boxShadow: "0 4px 15px rgba(246, 133, 27, 0.4)"
-              }}
+              className="metamask-button"
             >
               <MetaMaskLogo />
               <span style={{ marginLeft: "10px" }}>Connect with MetaMask</span>

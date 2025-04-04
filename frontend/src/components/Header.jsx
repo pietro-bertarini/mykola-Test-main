@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import { useWallet } from '../main';
+import { useWallet } from '../contexts/WalletContext';
+import '../styles/forms.css';
 
 /**
  * Simple header component that matches the style in the screenshots

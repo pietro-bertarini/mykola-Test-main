@@ -9,7 +9,7 @@ import { X } from "lucide-react";
 import "./Play.css";
 import axios from "axios";
 import COLORS from "../styles/colors";
-import { useWallet } from "../main";
+import { useWallet } from "../contexts/WalletContext";
 
 const modalStyles = {
   overlay: {

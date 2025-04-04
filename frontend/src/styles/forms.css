@@ -1,0 +1,183 @@
+/**
+ * Common form styles for the application
+ * Import this file in your components to use these classes
+ */
+
+.form-input {
+  width: 100%;
+  padding: 15px 20px;
+  box-sizing: border-box;
+  background-color: var(--color-background-transparent);
+  border: 1px solid rgba(255, 204, 0, 0.5);
+  border-radius: 5px;
+  color: var(--color-text-primary);
+  font-size: 16px;
+  transition: all 0.3s ease;
+  outline: none;
+  font-family: monospace;
+}
+
+.form-input:focus {
+  border-color: var(--color-accent-yellow);
+  box-shadow: 0 0 8px rgba(255, 204, 0, 0.3);
+}
+
+.primary-button {
+  flex: 1;
+  padding: 12px;
+  background: linear-gradient(90deg, var(--color-accent-yellow), var(--color-accent-yellow-light));
+  color: #121220;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+  font-family: 'Orbitron', sans-serif;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px var(--color-shadow-light);
+}
+
+.primary-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px var(--color-shadow-light);
+}
+
+.secondary-button {
+  flex: 1;
+  padding: 12px;
+  background-color: transparent;
+  color: var(--color-accent-yellow);
+  border: 2px solid var(--color-accent-yellow);
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+  font-family: 'Orbitron', sans-serif;
+  transition: all 0.3s ease;
+}
+
+.secondary-button:hover {
+  background-color: rgba(255, 204, 0, 0.1);
+}
+
+.metamask-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  background-color: #f6851b;
+  color: var(--color-text-primary);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 15px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(246, 133, 27, 0.4);
+}
+
+.metamask-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(246, 133, 27, 0.5);
+}
+
+.error-message {
+  color: var(--color-accent-red-main);
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: rgba(229, 57, 53, 0.1);
+  border-radius: 5px;
+  border: 1px solid rgba(229, 57, 53, 0.3);
+  font-family: monospace;
+}
+
+.success-message {
+  color: var(--color-accent-green-main);
+  padding: 15px;
+  background-color: rgba(76, 217, 100, 0.1);
+  margin-top: 20px;
+  border-radius: 5px;
+  border: 1px solid rgba(76, 217, 100, 0.3);
+  font-family: monospace;
+}
+
+.wallet-container {
+  border: 1px solid var(--color-accent-yellow);
+  border-radius: 8px;
+  padding: 15px;
+  margin-top: 15px;
+  backdrop-filter: blur(5px);
+  background-color: rgba(255, 204, 0, 0.1);
+}
+
+.wallet-status {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.wallet-status-dot {
+  width: 10px;
+  height: 10px;
+  background-color: var(--color-accent-green-main);
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.wallet-address {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-background-transparent);
+  padding: 12px;
+  border-radius: 5px;
+  font-family: monospace;
+  position: relative;
+  color: var(--color-accent-yellow);
+}
+
+.copy-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: 10px;
+  color: var(--color-accent-yellow);
+  font-size: 18px;
+}
+
+.copied-tooltip {
+  position: absolute;
+  top: -25px;
+  right: 10px;
+  background-color: rgba(0,0,0,0.8);
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-size: 12px;
+  animation: fadeIn 0.3s;
+}
+
+.form-divider {
+  display: flex;
+  align-items: center;
+  margin: 25px 0;
+}
+
+.divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--color-accent-yellow), transparent);
+}
+
+.divider-text {
+  padding: 0 15px;
+  color: var(--color-accent-yellow);
+  font-family: 'Orbitron', sans-serif;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+} 

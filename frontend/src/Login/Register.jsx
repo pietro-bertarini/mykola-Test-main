@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/variables.css';
+import '../styles/forms.css';
 
 const Register = () => {
   const [formData, setFormData] = useState({ username: '', password: '' });
@@ -76,19 +77,7 @@ const Register = () => {
               placeholder="Username"
               value={formData.username}
               onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-              style={{ 
-                width: "100%", 
-                padding: "15px 20px", 
-                boxSizing: "border-box",
-                backgroundColor: "var(--color-background-transparent)", 
-                border: "1px solid rgba(255, 204, 0, 0.5)", 
-                borderRadius: "5px", 
-                color: "var(--color-text-primary)",
-                fontSize: "16px",
-                transition: "all 0.3s ease",
-                outline: "none",
-                fontFamily: "monospace"
-              }}
+              className="form-input"
               required
             />
           </div>
@@ -99,19 +88,7 @@ const Register = () => {
               placeholder="Password"
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-              style={{ 
-                width: "100%", 
-                padding: "15px 20px", 
-                boxSizing: "border-box",
-                backgroundColor: "var(--color-background-transparent)", 
-                border: "1px solid rgba(255, 204, 0, 0.5)", 
-                borderRadius: "5px", 
-                color: "var(--color-text-primary)",
-                fontSize: "16px",
-                transition: "all 0.3s ease",
-                outline: "none",
-                fontFamily: "monospace"
-              }}
+              className="form-input"
               required
             />
           </div>
@@ -119,20 +96,7 @@ const Register = () => {
           <div style={{ display: "flex", gap: "15px", marginBottom: "20px" }}>
             <button
               type="submit"
-              style={{ 
-                flex: "1",
-                padding: "12px",
-                background: `linear-gradient(90deg, var(--color-accent-yellow), var(--color-accent-yellow-light))`,
-                color: "#121220",
-                border: "none",
-                borderRadius: "5px",
-                cursor: "pointer",
-                fontWeight: "bold",
-                fontSize: "16px",
-                fontFamily: "Orbitron, sans-serif",
-                transition: "all 0.3s ease",
-                boxShadow: `0 0 10px var(--color-shadow-light)`
-              }}
+              className="primary-button"
             >
               REGISTER
             </button>
@@ -140,48 +104,20 @@ const Register = () => {
             <button
               type="button"
               onClick={handleLoginRedirect}
-              style={{ 
-                flex: "1",
-                padding: "12px",
-                backgroundColor: "transparent",
-                color: "var(--color-accent-yellow)",
-                border: `2px solid var(--color-accent-yellow)`,
-                borderRadius: "5px",
-                cursor: "pointer",
-                fontWeight: "bold",
-                fontSize: "16px",
-                fontFamily: "Orbitron, sans-serif",
-                transition: "all 0.3s ease"
-              }}
+              className="secondary-button"
             >
               BACK TO LOGIN
             </button>
           </div>
           
           {message && (
-            <div style={{ 
-              color: "var(--color-accent-green-main)", 
-              padding: "15px", 
-              backgroundColor: "rgba(76, 217, 100, 0.1)", 
-              marginTop: "20px", 
-              borderRadius: "5px",
-              border: "1px solid rgba(76, 217, 100, 0.3)",
-              fontFamily: "monospace"
-            }}>
+            <div className="success-message">
               <p>{message}</p>
               <p style={{ fontSize: "14px", opacity: "0.8" }}>Redirecting to login...</p>
             </div>
           )}
           
-          {error && <div style={{ 
-            color: "var(--color-accent-red-main)", 
-            marginBottom: "15px", 
-            padding: "10px", 
-            backgroundColor: "rgba(229, 57, 53, 0.1)", 
-            borderRadius: "5px",
-            border: "1px solid rgba(229, 57, 53, 0.3)",
-            fontFamily: "monospace"
-          }}>{error}</div>}
+          {error && <div className="error-message">{error}</div>}
         </form>
         
         <div style={{ textAlign: "center", marginTop: "30px" }}>
