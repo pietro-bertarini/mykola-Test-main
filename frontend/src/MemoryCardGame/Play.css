@@ -1,6 +1,8 @@
 /* Import space-inspired fonts */
 @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap");
+/* Import CSS variables */
+@import url("../styles/variables.css");
 
 html, body {
     margin: 0;
@@ -29,21 +31,15 @@ html, body {
   top: 50%; /* Centers the modal */
   left: 50%;
   transform: translate(-50%, -50%);
-  background: rgba(30, 30, 46, 0.95); /* Default background */
-  border: 2px solid #4a4e69; /* Default border color */
+  background: var(--color-background-modal); /* Using CSS variable */
+  border: 2px solid var(--color-border-light); /* Using CSS variable */
   border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* Soft shadow for depth */
+  box-shadow: 0 4px 15px var(--color-shadow-medium); /* Using CSS variable */
   width: 400px;
   padding: 20px;
   z-index: 1000; /* Ensures it appears above everything */
-  color: #fff; /* Default text color */
+  color: var(--color-text-primary); /* Using CSS variable */
 }
-
-
-
-/* Calm Mode button styling */
-
-
 
 /* Volume control */
 .volume-control {
@@ -65,7 +61,7 @@ html, body {
     -webkit-appearance: none;
     appearance: none;
     height: 10px; /* Increased height */
-    background: linear-gradient(90deg, #85d1e0, #4a4e69);
+    background: linear-gradient(90deg, #85d1e0, var(--color-primary-main));
     outline: none;
     border-radius: 5px;
     transition: background 0.3s;
@@ -76,34 +72,27 @@ html, body {
     appearance: none;
     width: 20px;
     height: 20px;
-    background: #ffffff;
+    background: var(--color-text-primary);
     border-radius: 50%;
     cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 2px 5px var(--color-shadow-medium);
 }
-
-
 
 /* Volume label styling */
 .modal-h2 {
   font-family: "Orbitron", sans-serif; 
-  color: #ffcc00; /* Default color for background music and sound effects */
-  text-shadow: 0 0 10px #ffcc00, 0 0 20px #ffaa00; /* Glowing effect */
+  color: var(--color-accent-yellow); /* Using CSS variable */
+  text-shadow: 0 0 10px var(--color-accent-yellow), 0 0 20px var(--color-accent-yellow-light); /* Using CSS variables */
   margin-bottom: 25px;
   font-size: 24px;
 }
 
-
-
 /* Specific styling for Calm Mode h2 text */
 .calm-mode-label {
-  color: #ffffff; /* White color for Calm Mode label */
+  color: var(--color-text-primary); /* Using CSS variable */
   text-shadow: none; /* Remove any text shadow */
   font-size: 24px; /* Keep the font size the same */
 }
-
-
-
 
 /* Background container */
 .background-container {
@@ -125,10 +114,10 @@ html, body {
 .game-title {
     font-family: "Orbitron", sans-serif; /* Futuristic font for space theme */
     font-size: 100px; /* Large size */
-    color: #ffcc00; /* Yellow, matching stars */
+    color: var(--color-accent-yellow); /* Using CSS variable */
     text-shadow: 
-        0 0 10px #ffcc00, /* Outer glow */
-        0 0 20px #ffaa00, /* Brighter inner glow */
+        0 0 10px var(--color-accent-yellow), /* Using CSS variable */
+        0 0 20px var(--color-accent-yellow-light), /* Using CSS variable */
         0 0 30px rgba(255, 255, 255, 0.6); /* Subtle white glow */
     margin-top: 70px;
     z-index: 10;
@@ -139,15 +128,15 @@ html, body {
 @keyframes pulseTitle {
     0%, 100% {
         text-shadow: 
-            0 0 10px #ffcc00,
-            0 0 20px #ffaa00,
+            0 0 10px var(--color-accent-yellow),
+            0 0 20px var(--color-accent-yellow-light),
             0 0 30px rgba(255, 255, 255, 0.6);
         transform: scale(1);
     }
     50% {
         text-shadow: 
-            0 0 20px #ffaa00,
-            0 0 40px #ffcc00,
+            0 0 20px var(--color-accent-yellow-light),
+            0 0 40px var(--color-accent-yellow),
             0 0 60px rgba(255, 255, 255, 0.9);
         transform: scale(1.05); /* Slight size increase for pulse effect */
     }
@@ -169,24 +158,23 @@ html, body {
     margin: 15px;
     font-family: "Press Start 2P", sans-serif; /* Retro font */
     font-size: 16px; /* Font size */
-    color: #ffffff; /* White text */
-    background: linear-gradient(90deg, #4a4e69, #22223b); /* Cosmic gradient */
-    border: 2px solid #9a8c98; /* Metallic border */
+    color: var(--color-text-primary); /* Using CSS variable */
+    background: var(--color-primary-gradient); /* Using CSS variable */
+    border: 2px solid var(--color-secondary-main); /* Using CSS variable */
     border-radius: 10px; /* Smooth edges */
     box-shadow: 
-        0 0 10px rgba(255, 255, 255, 0.3), /* Outer glow */
-        0 6px 12px rgba(0, 0, 0, 0.5); /* Shadow for depth */
+        0 0 10px var(--color-shadow-light), /* Using CSS variable */
+        0 6px 12px var(--color-shadow-medium); /* Using CSS variable */
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.3s, background 0.3s;
 }
 
 .game-button:hover {
-    background: linear-gradient(90deg, #6c757d, #343a40); /* Hover gradient */
+    background: var(--color-primary-hover-gradient); /* Using CSS variable */
     box-shadow: 
-        0 0 20px #ffffff, /* Brighter glow */
-        0 8px 16px rgba(0, 0, 0, 0.6); /* Enhanced shadow */
+        0 0 20px var(--color-text-primary), /* Using CSS variable */
+        0 8px 16px var(--color-shadow-dark); /* Using CSS variable */
     transform: scale(1.1); 
-   
 }
 
 /* Calm Mode toggle styling */
@@ -243,18 +231,17 @@ input:checked + .slider:before {
     transform: translateX(30px); /* Adjusted the movement to match the increased width */
 }
 
-
 /* Calm Mode button styling */
 .game-button.calm-button {
-  background: linear-gradient(90deg, #9fae9b, #7f9f7c); /* Calm gradient */
-  border: 2px solid #8b8f80; /* Calm border color */
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3), 0 6px 12px rgba(0, 0, 0, 0.5);
+  background: var(--color-calm-button-gradient); /* Using CSS variable */
+  border: 2px solid var(--color-calm-border); /* Using CSS variable */
+  box-shadow: 0 0 10px var(--color-shadow-light), 0 6px 12px var(--color-shadow-medium);
 }
 
 /* Calm Mode button hover effect */
 .game-button.calm-button:hover {
-  background: linear-gradient(90deg, #a0b79d, #8ba982); /* Light calm hover effect */
-  box-shadow: 0 0 20px #ffffff, 0 8px 16px rgba(0, 0, 0, 0.6); /* Enhanced shadow */
+  background: var(--color-calm-button-hover-gradient); /* Using CSS variable */
+  box-shadow: 0 0 20px var(--color-text-primary), 0 8px 16px var(--color-shadow-dark);
   transform: scale(1.1); /* Slight zoom effect */
 }
 
@@ -262,16 +249,13 @@ input:checked + .slider:before {
 .game-title.calm-title {
   font-family: "Orbitron", sans-serif; /* Keep the futuristic font */
   font-size: 100px; /* Large size */
-  color: #a6e0a6; /* Light greenish color, fitting the calm theme */
+  color: var(--color-calm-title); /* Using CSS variable */
   text-shadow: 
-      0 0 10px #a6e0a6; /* Soft greenish glow */
- /* More soft glow */
-    
+      0 0 10px var(--color-calm-title); /* Using CSS variable */
   margin-top: 70px;
   z-index: 10;
   animation: none; /* Remove the pulse animation */
 }
-
 
 .difficulty-selection {
     display: flex;
@@ -283,81 +267,203 @@ input:checked + .slider:before {
     padding: 10px 20px;
     font-family: "Press Start 2P", sans-serif;
     font-size: 30px;
-    color: #fff;
-    background: linear-gradient(90deg, #22223b, #4a4e69);
-    border: 2px solid #9a8c98;
+    color: var(--color-text-primary);
+    background: var(--color-primary-gradient);
+    border: 2px solid var(--color-secondary-main);
     border-radius: 10px;
     cursor: pointer;
     transition: transform 0.2s, background 0.3s, box-shadow 0.3s;
   }
   
   .difficulty-button:hover {
-    background: linear-gradient(90deg, #6c757d, #343a40);
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3), 0 8px 16px rgba(0, 0, 0, 0.6);
+    background: var(--color-primary-hover-gradient);
+    box-shadow: 0 0 20px var(--color-shadow-light), 0 8px 16px var(--color-shadow-dark);
     transform: scale(1.1);
-  
   }
 
   .difficulty-button.selected {
-    border-color: #fff; /* White border */
-    transform: scale(1.1); /* Slightly enlarge */
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8); /* Glow effect */
+    border-color: var(--color-text-primary);
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
     animation: dificultyfloating 2s infinite;
   }
 
   
   .difficulty-button.green {
-    background: linear-gradient(90deg, #85e085, #4caf50);
+    background: var(--color-accent-green-gradient);
   }
   
   .difficulty-button.yellow {
-    background: linear-gradient(90deg, #ffeb3b, #fbc02d);
+    background: var(--color-accent-yellow-gradient);
   }
   
   .difficulty-button.red {
-    background: linear-gradient(90deg, #ff4444, #e53935);
+    background: var(--color-accent-red-gradient);
   }
 
   .difficulty-button.calm-selected {
-    border-color: #fff; /* White border */
-    transform: scale(1.1); /* Slightly enlarge */
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8); /* Glow effect */
-  
+    border-color: var(--color-text-primary);
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
   }
 
 
   @keyframes dificultyfloating {
     0%, 100% {
         text-shadow: 
-            0 0 10px #ffffff,
-            0 0 20px #bababa,
-            0 0 30px rgba(255, 255, 255, 0.6);
+            0 0 10px var(--color-text-primary),
+            0 0 20px rgba(255, 255, 255, 0.6),
+            0 0 30px rgba(255, 255, 255, 0.4);
         transform: scale(1);
     }
     50% {
         text-shadow: 
-            0 0 20px #000000,
-            0 0 40px #000000,
-            0 0 60px rgba(0, 0, 0, 0.9);
-        transform: scale(1.05); /* Slight size increase for pulse effect */
+            0 0 20px rgba(0, 0, 0, 0.9),
+            0 0 40px rgba(0, 0, 0, 0.7),
+            0 0 60px rgba(0, 0, 0, 0.5);
+        transform: scale(1.05);
     }
 }
   
   .play-button {
     margin-top: 50px;
     padding: 10px 20px;
-    background: #4a4e69;
-    color: #fff;
+    background: var(--color-primary-main);
+    color: var(--color-text-primary);
     font-family: "Press Start 2P", sans-serif;
     font-size: 18px;
-    border: 2px solid #9a8c98;
+    border: 2px solid var(--color-secondary-main);
     border-radius: 10px;
     cursor: pointer;
     transition: transform 0.2s, background 0.3s, box-shadow 0.3s;
   }
   
   .play-button:hover {
-    background: #6c757d;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3), 0 8px 16px rgba(0, 0, 0, 0.6);
+    background: var(--color-primary-light);
+    box-shadow: 0 0 20px var(--color-shadow-light), 0 8px 16px var(--color-shadow-dark);
     transform: scale(1.1);
   }
+
+/* History modal styling */
+.history-table-container {
+  margin-top: 20px;
+  width: 100%;
+  overflow-x: auto;
+  max-height: 320px; /* Add a max height to ensure there's space for pagination at bottom */
+}
+
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto;
+  color: var(--color-text-primary);
+  font-family: "Orbitron", sans-serif;
+}
+
+.history-table th, .history-table td {
+  padding: 12px 15px;
+  text-align: center;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.history-table th {
+  background-color: rgba(74, 78, 105, 0.5);
+  color: var(--color-accent-yellow);
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 14px;
+  position: sticky;
+  top: 0; /* Make headers sticky when scrolling */
+  z-index: 1;
+}
+
+.history-table tr:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.no-history {
+  margin-top: 50px;
+  font-family: "Orbitron", sans-serif;
+  color: var(--color-accent-yellow);
+  font-size: 18px;
+}
+
+/* Loading container and spinner */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  border-top-color: var(--color-accent-yellow);
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Remove the old loading spinner style */
+.loading-spinner {
+  margin-top: 50px;
+  font-family: "Orbitron", sans-serif;
+  color: var(--color-accent-yellow);
+  font-size: 18px;
+  animation: spin 1.5s linear infinite;
+}
+
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 15px;
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+}
+
+.pagination-button {
+  padding: 8px 15px;
+  background: var(--color-primary-gradient);
+  color: var(--color-text-primary);
+  font-family: "Press Start 2P", sans-serif;
+  font-size: 14px;
+  border: 2px solid var(--color-secondary-main);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.3s, box-shadow 0.3s;
+}
+
+.pagination-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination-button:hover:not(:disabled) {
+  background: var(--color-primary-hover-gradient);
+  box-shadow: 0 0 10px var(--color-shadow-light);
+  transform: scale(1.05);
+}
+
+.page-info {
+  font-family: "Orbitron", sans-serif;
+  color: var(--color-accent-yellow);
+  font-size: 16px;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 5px 15px;
+  border-radius: 10px;
+  text-shadow: 0 0 5px var(--color-accent-yellow);
+}

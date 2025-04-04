@@ -1,0 +1,56 @@
+/**
+ * CSS Variables for the application
+ * 
+ * This file defines CSS variables that match the color constants in colors.js.
+ * Import this file in your CSS files to use these variables.
+ */
+
+:root {
+  /* Primary UI Colors */
+  --color-primary-main: #4a4e69;
+  --color-primary-light: #6c757d;
+  --color-primary-dark: #22223b;
+  --color-primary-gradient: linear-gradient(90deg, #4a4e69, #22223b);
+  --color-primary-hover-gradient: linear-gradient(90deg, #6c757d, #343a40);
+  
+  /* Secondary UI Colors */
+  --color-secondary-main: #9a8c98;
+  --color-secondary-light: #b5a9b3;
+  --color-secondary-dark: #7d7185;
+  
+  /* Accent Colors */
+  --color-accent-yellow: #ffcc00;
+  --color-accent-yellow-light: #ffaa00;
+  --color-accent-red-main: #e53935;
+  --color-accent-red-gradient: linear-gradient(90deg, #ff4444, #e53935);
+  --color-accent-green-main: #4caf50;
+  --color-accent-green-gradient: linear-gradient(90deg, #85e085, #4caf50);
+  --color-accent-yellow-main: #fbc02d;
+  --color-accent-yellow-gradient: linear-gradient(90deg, #ffeb3b, #fbc02d);
+  
+  /* Text Colors */
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #e0e0e0;
+  --color-text-disabled: #a0a0a0;
+  
+  /* Background Colors */
+  --color-background-main: #1e1e2e;
+  --color-background-modal: rgba(30, 30, 46, 0.95);
+  --color-background-transparent: rgba(0, 0, 0, 0.7);
+  
+  /* Border Colors */
+  --color-border-light: #4a4e69;
+  --color-border-dark: #22223b;
+  
+  /* Shadow Colors */
+  --color-shadow-light: rgba(255, 255, 255, 0.3);
+  --color-shadow-medium: rgba(0, 0, 0, 0.5);
+  --color-shadow-dark: rgba(0, 0, 0, 0.6);
+  
+  /* Calm Mode Colors */
+  --color-calm-background: #86a17d;
+  --color-calm-button-gradient: linear-gradient(90deg, #9fae9b, #7f9f7c);
+  --color-calm-button-hover-gradient: linear-gradient(90deg, #a0b79d, #8ba982);
+  --color-calm-border: #8b8f80;
+  --color-calm-title: #a6e0a6;
+} 

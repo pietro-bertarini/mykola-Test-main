@@ -8,10 +8,12 @@ import buttonHoverSound from "../assets/audio/button-hover.mp3";
 import buttonClickSound from "../assets/audio/button-click.mp3";
 import { X } from "lucide-react";
 import "./Play.css";
+import axios from "axios";
+import COLORS from "../styles/colors";
 
 const modalStyles = {
   overlay: {
-    backgroundColor: "rgba(0, 0, 0, 0.7)",
+    backgroundColor: COLORS.background.transparent,
     zIndex: 999,
     display: "flex",
     alignItems: "center",
@@ -19,14 +21,14 @@ const modalStyles = {
     overflow: "hidden",
   },
   content: {
-    backgroundColor: "#1e1e2e",
-    border: "2px solid #4a4e69",
+    backgroundColor: COLORS.background.main,
+    border: `2px solid ${COLORS.border.light}`,
     borderRadius: "20px",
     padding: "40px",
     maxWidth: "600px",
     height: "300px",
     width: "90%",
-    color: "#fff",
+    color: COLORS.text.primary,
     textAlign: "center",
     position: "absolute",
     top: "50%",
@@ -38,7 +40,7 @@ const modalStyles = {
 
 const modalPlayStyles = {
   overlay: {
-    backgroundColor: "rgba(0, 0, 0, 0.7)",
+    backgroundColor: COLORS.background.transparent,
     zIndex: 999,
     display: "flex",
     alignItems: "center",
@@ -46,14 +48,14 @@ const modalPlayStyles = {
     overflow: "hidden",
   },
   content: {
-    backgroundColor: "#1e1e2e",
-    border: "2px solid #4a4e69",
+    backgroundColor: COLORS.background.main,
+    border: `2px solid ${COLORS.border.light}`,
     borderRadius: "20px",
     padding: "40px",
     maxWidth: "600px",
     height: "200px",
     width: "90%",
-    color: "#fff",
+    color: COLORS.text.primary,
     textAlign: "center",
     position: "absolute",
     top: "50%",
@@ -63,12 +65,45 @@ const modalPlayStyles = {
   },
 };
 
+const modalHistoryStyles = {
+  overlay: {
+    backgroundColor: COLORS.background.transparent,
+    zIndex: 999,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    overflow: "hidden",
+  },
+  content: {
+    backgroundColor: COLORS.background.main,
+    border: `2px solid ${COLORS.border.light}`,
+    borderRadius: "20px",
+    padding: "40px",
+    maxWidth: "800px",
+    height: "500px",
+    width: "90%",
+    color: COLORS.text.primary,
+    textAlign: "center",
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    overflow: "auto", // Changed to auto to allow scrolling
+  },
+};
+
 const Play = () => {
   const navigate = useNavigate();
   const [SettingsmodalIsOpen, setModalSettingIsOpen] = useState(false);
   const [PlaymodalIsOpen, setModalPlayIsOpen] = useState(false);
+  const [HistorymodalIsOpen, setModalHistoryIsOpen] = useState(false);
   const [difficulty, setDifficulty] = useState(null);
   const [isCalmMode, setIsCalmMode] = useState(false);
+  const [gameHistory, setGameHistory] = useState([]);
+  const [historyPage, setHistoryPage] = useState(1);
+  const [historyLimit] = useState(5); // Number of results per page
+  const [totalHistoryPages, setTotalHistoryPages] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   
   const [bgVolume, setBgVolume] = useState(
     localStorage.getItem("bgVolume") !== null ? parseInt(localStorage.getItem("bgVolume"), 10) : 50
@@ -170,6 +205,66 @@ const Play = () => {
     setModalPlayIsOpen(false);
   };
 
+  const HistoryopenModal = () => {
+    playClickSound();
+    setModalHistoryIsOpen(true);
+    fetchGameHistory(1); // Fetch the first page when opening
+  };
+
+  const HistorycloseModal = () => {
+    playClickSound();
+    setModalHistoryIsOpen(false);
+  };
+
+  const fetchGameHistory = async (page) => {
+    setIsLoading(true);
+    try {
+      const userID = localStorage.getItem("userID");
+      if (!userID) {
+        alert("User ID is missing. Please log in again.");
+        setIsLoading(false);
+        return;
+      }
+
+      const response = await axios.get(
+        `http://localhost:5001/api/memory/results/user/${userID}?page=${page}&limit=${historyLimit}`
+      );
+
+      setGameHistory(response.data.results);
+      setTotalHistoryPages(response.data.totalPages);
+      setHistoryPage(page);
+    } catch (error) {
+      console.error("Error fetching game history:", error);
+      if (error.response && error.response.status === 404) {
+        // No results found
+        setGameHistory([]);
+        setTotalHistoryPages(0);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalHistoryPages) {
+      fetchGameHistory(newPage);
+      playClickSound();
+    }
+  };
+
+  // Format date to a readable format
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleString();
+  };
+
+  // Format time taken in seconds to minutes and seconds
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}m ${secs}s`;
+  };
+
   const handleDifficultySelect = (level) => {
     setDifficulty(level);
   };
@@ -227,6 +322,13 @@ const Play = () => {
         </button>
         <button
           className={`game-button ${isCalmMode ? "calm-button" : ""}`}
+          onClick={HistoryopenModal}
+          onMouseEnter={playHoverSound}
+        >
+          History
+        </button>
+        <button
+          className={`game-button ${isCalmMode ? "calm-button" : ""}`}
           onClick={() => {
             playClickSound();
             alert("Instructions coming soon!");
@@ -250,8 +352,8 @@ const Play = () => {
           ...modalStyles,
           content: {
             ...modalStyles.content,
-            backgroundColor: isCalmMode ? "#86a17d" : "#1e1e2e",
-            color: isCalmMode ? "#ffffff" : "#fff",
+            backgroundColor: isCalmMode ? COLORS.calmMode.background : COLORS.background.main,
+            color: isCalmMode ? COLORS.text.primary : COLORS.text.primary,
           },
         }}
       >
@@ -264,7 +366,7 @@ const Play = () => {
             background: "none",
             border: "none",
             cursor: "pointer",
-            color: "#fff",
+            color: COLORS.text.primary,
           }}
         >
           <X size={24} />
@@ -322,8 +424,8 @@ const Play = () => {
           ...modalPlayStyles,
           content: {
             ...modalPlayStyles.content,
-            backgroundColor: isCalmMode ? "#86a17d" : "#1e1e2e",
-            color: isCalmMode ? "#ffffff" : "#fff",
+            backgroundColor: isCalmMode ? COLORS.calmMode.background : COLORS.background.main,
+            color: isCalmMode ? COLORS.text.primary : COLORS.text.primary,
           },
         }}
       >
@@ -336,7 +438,7 @@ const Play = () => {
             background: "none",
             border: "none",
             cursor: "pointer",
-            color: "#fff",
+            color: COLORS.text.primary,
           }}
         >
           <X size={24} />
@@ -393,6 +495,100 @@ const Play = () => {
             Accept
           </button>
         </div>
+      </Modal>
+
+      <Modal
+        isOpen={HistorymodalIsOpen}
+        onRequestClose={HistorycloseModal}
+        style={{
+          ...modalHistoryStyles,
+          content: {
+            ...modalHistoryStyles.content,
+            backgroundColor: isCalmMode ? COLORS.calmMode.background : COLORS.background.main,
+            color: isCalmMode ? COLORS.text.primary : COLORS.text.primary,
+          },
+        }}
+      >
+        <button
+          onClick={HistorycloseModal}
+          style={{
+            position: "absolute",
+            top: "10px",
+            right: "10px",
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            color: COLORS.text.primary,
+          }}
+        >
+          <X size={24} />
+        </button>
+
+        <h2 className={`${isCalmMode ? "calm-mode-label" : ""} modal-h2`}>
+          Game History
+        </h2>
+
+        {isLoading ? (
+          <div className="loading-container">
+            <div className="spinner"></div>
+          </div>
+        ) : gameHistory.length === 0 ? (
+          <div className="no-history">
+            <p>No game history found. Play a game to see your results!</p>
+          </div>
+        ) : (
+          <>
+            <div className="history-table-container">
+              <table className="history-table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Difficulty</th>
+                    <th>Completed</th>
+                    <th>Failed Attempts</th>
+                    <th>Time Taken</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {gameHistory.map((game, index) => (
+                    <tr key={index}>
+                      <td>{formatDate(game.gameDate)}</td>
+                      <td>{game.difficulty}</td>
+                      <td>{game.completed ? "Yes" : "No"}</td>
+                      <td>{game.failed}</td>
+                      <td>{formatTime(game.timeTaken)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
+        )}
+        
+        {/* Pagination controls - moved to bottom */}
+        {!isLoading && gameHistory.length > 0 && (
+          <div className="pagination-controls">
+            <button
+              onClick={() => handlePageChange(historyPage - 1)}
+              disabled={historyPage === 1}
+              className="pagination-button"
+              onMouseEnter={playHoverSound}
+            >
+              Previous
+            </button>
+            <span className="page-info">
+              Page {historyPage} of {totalHistoryPages || 1}
+            </span>
+            <button
+              onClick={() => handlePageChange(historyPage + 1)}
+              disabled={historyPage >= totalHistoryPages}
+              className="pagination-button"
+              onMouseEnter={playHoverSound}
+            >
+              Next
+            </button>
+          </div>
+        )}
       </Modal>
     </div>
   );
