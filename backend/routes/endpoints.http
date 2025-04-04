@@ -1,0 +1,18 @@
+### Test Save Game Data Endpoint
+POST http://localhost:5001/api/memory/save
+Content-Type: application/json
+
+{
+  "userID": "67ec3ec31ecc5143eb5e2527",
+  "gameDate": "2023-10-01T12:00:00Z",
+  "failed": 3,
+  "difficulty": "Easy",
+  "completed": 1,
+  "timeTaken": 120
+}
+
+### Test Get User Game Results Endpoint
+GET http://localhost:5001/api/memory/results/user/67ec3ec31ecc5143eb5e2527
+
+### Test Get User Game Results with Different Pagination
+GET http://localhost:5001/api/memory/results/user/67ec3ec31ecc5143eb5e2527?page=2&limit=1
